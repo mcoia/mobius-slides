@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Antora! Antora! Antora! - An Evergreen Documentation Bombshell</title>
+		
+		<meta name="author" content="Blake Graham Henderson">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.5, maximum-scale=5.0, user-scalable=no">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/sky.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+        
+        <style>
+        .codesnip{
+        background-color:lightgrey;
+        }
+        </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3><span style="color:#af00ff91">Antora! Antora! Antora!</span> 
+                    <br />An Evergreen Documentation
+                    <br /><img src="img/bomb.png" width="100px" style="margin-bottom: -20px;"><span style="font-weight: bold;">Bombshell</span>
+                    </h3>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/antora">slides.mobiusconsortium.org/blake/antora</a></p>
+					<p>
+						<small>Created by Blake Graham-Henderson / <a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></small></p>
+					<p>Press ESC to browse slides</p>
+				</section>
+
+				<section>
+					<h3>This presentation is about:</h3>
+                        <span style="color: red" class="fragment"><img src="img/boo.jpg" width="200px"><br />DOCUMENTATION!!!!</span>
+                    <span class="fragment"><h3 >Specifically Evergreen Documentation</h3></span>
+				</section>
+
+				<section>
+					<h3>What IS documentation?</h3>
+                    <br />
+                    <ul>
+                        <li><span class="fragment">Mainly: words and sentences</span></li>
+                        <li><span class="fragment">Also: formatting
+                            <ul><li>Headings, numbered lists, highlighting</li>
+                            </ul></span>
+                        </li>
+                        <li><span class="fragment">Also: images</span></li>
+                        <li><span class="fragment">Also: navigation</span></li>                        
+                    </ul>
+				</section>
+                
+                <section>
+                    <section>
+                        <h4>How do humans write the documentation?</h4>
+                        <p class="fragment">We can write a <span style="color:green">book</span>.</p>
+                        <ul class="fragment">
+                            <li>Need editors</li>
+                            <li>Need publisher</li>
+                            <li>Need time to publish and distribute</li>
+                            <li>The book will be out of date by the time this process is finished</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>How do humans write the documentation?</h4>
+                        <p>We can publish <span style="color:green">online.</span></p>
+                        <ul class="fragment">
+                            <li>Need editors</li>
+                            <li style="text-decoration:line-through">Need publisher</li>
+                            <li style="text-decoration:line-through">Need time to publish and distribute</li>
+                            <li style="text-decoration:line-through">The book will be out of date by the time this process is finished</li>
+                            <li class="fragment" style="color:green">Need to know HTML</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>How do humans write the documentation?</h4>
+                        <p>We can publish <span style="color:green">online with ASCIIDOC.</span></p>
+                        <ul class="fragment">
+                            <li>Need editors</li>
+                            <li class="fragment" style="text-decoration:line-through">Need to know HTML</li>
+                            <li class="fragment" style="color:green">Need to know ASCIIDOC</li>
+                        </ul>
+                    </section>
+				</section>
+
+                <section>
+                    <h2>ASCIIDOC</h2>
+                    <ul>
+                    <li>Lowers the bar of entry</li>
+                    <li>Attracts new editors because easy to learn</li>
+                    <li>Reduces the keystrokes required</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>Simple</h1>
+                    <div>We need (mainly)</div>
+                    <ul>
+                        <li>Words</li>
+                        <li class="fragment">....and images</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h1>Words</h1>
+                    <pre>
+Item Status
+
+Deleting Item Statuses
+
+1. Highlight the statuses you wish to delete. Ctrl-click
+   to select more than one status.
+2. Click Delete Selected.
+3. Click OK to verify.
+
+{image of the interface here}
+
+NOTE
+You will not be able to delete statuses if items currently
+exist with that status.
+
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>Formatting</h2>
+<pre style="width:75%;float:left">Item Status</pre><span style="font-size:12pt;color:red"> <---- Heading</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">Deleting Item Statuses</pre><span style="font-size:12pt;color:red"> <---- Subheading</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">
+1. Highlight the statuses you wish to delete.
+   Ctrl-click to select more than one status.
+2. Click Delete Selected.
+3. Click OK to verify.
+</pre><span style="font-size:12pt;color:red"> <---- List (numbered or bulleted)</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">{image of the interface here}</pre><span style="font-size:12pt;color:red"> <---- Picture file</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">NOTE
+You will not be able to delete statuses if items
+currently exist with that status.</pre><span style="font-size:12pt;color:red"> <---- That's a "note"</span>
+                </section>
+
+                <section>
+                    <h2>ASCIIDOC in Action</h2>
+<pre style="width:75%;float:left">= Item Status =</pre><span style="font-size:12pt;color:red"> <---- Heading</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">== Deleting Item Statuses ==</pre><span style="font-size:12pt;color:red"> <---- Subheading</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">
+. Highlight the statuses you wish to delete.
+   Ctrl-click to select more than one status.
+. Click Delete Selected.
+. Click OK to verify.
+</pre>
+<span style="font-size:12pt;color:red"> <---- List (numbered or bulleted)</span>
+<div style="font-size:12pt;color:red"> Numbered: period "."</div>
+<div style="font-size:12pt;color:red"> Bulleted: astricks "*"</div>
+<div style="clear:both"></div>
+<pre style="width:85%;float:left">image::media/copy_status_delete.png[Deleting item statuses]</pre><span style="font-size:12pt;color:red"> <---- Picture file</span>
+<div style="clear:both"></div>
+<pre style="width:75%;float:left">
+[NOTE] You will not be able to delete statuses 
+if items currently exist with that status.</pre><span style="font-size:12pt;color:red"> <---- That's a "note"</span>
+                </section>
+                
+                <section>
+                    <h2>Results</h2>
+<img src="img/delete_item_status_old.png" width="50%">
+                </section>
+                           
+                <section>
+                    <h4>Italics?</h4>
+                    <p>You might have noticed the italicized words</p>
+<img src="img/delete_item_status_old_italics.png" width="50%">
+                </section>
+
+                <section>
+                    <h2>Italics - it's easy!</h2>
+<pre style="width:75%;float:left">
+. Click <span style="color:red">_</span>Delete Selected<span style="color:red">_</span>.
+. Click <span style="color:red">_</span>OK<span style="color:red">_</span> to verify.
+</pre><span style="font-size:12pt;color:red"> <---- wrapped in underscores</span>
+<div style="clear:both"></div>
+                </section>
+
+                <section>
+                    <h3>Big issue: organization</h3>
+                    <ul>
+                    <li><span style="color:red">Where</span> is everything?</li>
+                    <li>How do I <span style="color:red">edit</span> something?</li>
+                    <li>How do I <span style="color:red">create</span> something new?</li>
+                    </ul>
+                </section>
+    
+                <section>
+                    <h3>Evergreen documentation</h3>
+                    <p>We put all of our docs into the Evergreen code repository</p>
+                    <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">Evergreen repo /</div>
+                    <img src="img/repo_root.png">
+                </section>
+    
+                <section>
+                    <h3>Evergreen documentation</h3>
+                    <p>docs folder</p>
+                    <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs /</div>
+                    <img src="img/repo_docs.png">
+                    <p>46 items in this folder</p>
+                </section>
+
+                <section>
+                    <h3>Evergreen documentation</h3>
+                    <p>media folder</p>
+                    <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs / media</div>
+                    <img src="img/repo_media.png">
+                    <p>1,344 items in this folder</p>
+                </section>
+
+                <section>
+                    <h3>Evergreen documentation</h3>
+                    <div style="float:left;width:20%"><div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">Evergreen repo / docs</div><img src="img/repo_docs_admin_highlighted.png"></div>
+                    <div style="float:left;width:20%;margin-left:2em;color:red;margin-top:5em;font-size:16pt"> Generated ----> </div>
+                    <div style="float:right;width:50%"> <img width="80%" src="img/egdocs_old_nav_admin.png" > </div>
+                    <div style="clear:both"></div>
+                </section>
+
+                <section>
+                    <h3>Admin Folder</h3>
+                    <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs / admin</div>
+                    <img width="80%" src="img/repo_docs_admin.png" >
+                </section>
+
+                <section>
+                    <h1>Take a look at the product</h1>
+                </section>
+
+                <section>
+                    <h1>The old (current) way:</h1>
+                </section>
+
+                <section>
+                    <h3>Landing Page</h3>
+                    <img width="30%" src="img/egdocs_old_start.png" >
+                </section>
+                
+                <section>
+                    <h3>Main Nav</h3>
+                    <img width="70%" src="img/egdocs_old_whole_nav.png" >
+                </section>
+
+                <section>
+                    <h3>Admin root - step one</h3>
+                    <img width="60%" src="img/egdocs_old_nav_1.png" >
+                </section>
+
+                <section>
+                    <h3>Admin - step two</h3>
+                    <img width="80%" src="img/egdocs_old_nav_2.png" >
+                    <p>Where'd the nav go?</p>
+                </section>
+                
+                <section>
+                    <h3>What is Antora?</h3>
+                    <ul>
+                    <li>Open Source</li>
+                    <li>Generates the website from ASCIIDOC</li>
+                    </ul>
+                    <p><span style="font-size:12pt;color:red">From Antora's site:</span><br />The Static Site Generator for Tech Writers</p>
+                </section>
+                <section>
+                    <section>
+                        <h4>Side by side</h4>
+                        <img src="img/docs_old_to_new.png" width="80%">
+                    </section>
+
+                    <section>
+                        <h5>Navigation</h5>
+                        <img src="img/egdocs_new_nav.png" width="30%">
+                    </section>
+
+                    <section>
+                        <h5>Breadcrumbs</h5>
+                        <img src="img/egdocs_new_breadcrumb.png" width="80%">
+                    </section>
+
+                    <section>
+                        <h5>Search</h5>
+                        <img src="img/egdocs_new_search.png" width="60%">
+                    </section>
+
+                    <section>
+                        <h5>Version</h5>
+                        <img src="img/egdocs_new_version.png" width="60%">
+                    </section>
+                </section>
+                
+                <section>
+                    <section>
+                        <h2>Anything different?</h2>
+                        <div class="fragment">Well, yes. A little.</div>
+                        <div class="fragment">Antora enforces a folder structure.</div>
+                        <div class="fragment">And it's an improvement.</div>
+                    </section>
+
+                    <section>
+                        <h3>Folder structure</h3>
+                        <h5>Root folder</h5>
+                        <div style="float:left;width:57%">
+                        <div>Old root folder</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs /</div>
+                        <img src="img/repo_docs_plain.png">
+                        </div>
+                        <div style="float:right;width:40%">
+                        <div>Antora root folder</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs-antora /</div>
+                        <img src="img/new_repo_docs.png">
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Folder structure</h3>
+                        <h5>Modules folder</h5>
+                        <div style="float:left;width:57%">
+                        <div>Old</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs /</div>
+                        <img src="img/repo_docs_plain.png">
+                        </div>
+                        <div style="float:right;width:40%">
+                        <div>Antora</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs-antora / modules</div>
+                        <img src="img/new_repo_docs_modules.png">
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Folder structure</h3>
+                        <h5>Circulation folder</h5>
+                        <div style="float:left;width:57%">
+                        <div>Old</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs / circulation</div>
+                        <img src="img/repo_docs_circulation_folder.png">
+                        </div>
+                        <div style="float:right;width:40%">
+                        <div>Antora circ folder</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs-antora / modules / circulation</div>
+                        <img src="img/new_repo_docs_circulation_folder.png">
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Folder structure</h3>
+                        <h5>Circulation folder</h5>
+                        <div style="float:left;width:57%">
+                        <div>Old</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs / circulation</div>
+                        <img src="img/repo_docs_circulation_folder.png">
+                        </div>
+                        <div style="float:right;width:40%">
+                        <div>Antora pages folder</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs-antora / modules / circulation / pages</div>
+                        <img src="img/new_repo_docs_circulation_pages_folder.png">
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Folder structure</h3>
+                        <h5>Circulation / media</h5>
+                        <div style="float:left;width:57%">
+                        <div>Old</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs / media</div>
+                        <img src="img/repo_media.png">
+                        </div>
+                        <div style="float:right;width:40%">
+                        <div>Antora</div>
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">docs-antora / modules / circulation / assets / images</div>
+                        <img src="img/new_repo_docs_circulation_assets_images_folder.png">
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Folder structure</h3>
+                        <h5>Circulation / media / sub</h5>
+                        <div style="float:left;width:57%">
+                        <div style="margin-bottom:-30px;">Old</div>
+                        <img src="img/repo_media.png">
+                        <div style="margin-top:-40px;color:red">1,344 items</div>
+                        </div>
+                        <div style="float:right;width:40%">
+                        <div style="margin-bottom:-30px;">Antora</div>
+                        <img src="img/new_repo_docs_circulation_assets_images_advanced_holds.png">
+                        <div style="margin-top:-40px;color:green">65 Items</div>
+                        </div>
+                        <div style="clear:both"></div>
+                        <p>Can be organized per doc</p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <section>
+                        <h3>A word about images</h3>
+                        <div style="float:left;width:47%">
+                        <ul>
+                            <li>Antora knows!</li>
+                            <li>Small config file</li>
+                        </ul>
+                        </div>
+                        <div style="float:right;width:38%">
+                        <img src="img/repo_docs_circulation_folder_highlighted.png">
+                        </div>
+                        <div style="clear:both"></div>
+                        <pre><code data-trim data-noescape>
+                            :attachmentsdir: {moduledir}/assets/attachments
+                            :examplesdir: {moduledir}/examples
+                            :imagesdir: {moduledir}/assets/images
+                            :partialsdir: {moduledir}/pages/_partials
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3>A word about images</h3>
+                        <p>Now you can refer to an image like this:</p>
+                        <pre><code data-trim data-noescape>
+                            image::media/holds_title_options.png
+                        </code></pre>
+                        <p>Add ALT text</p>
+                         <pre><code data-trim data-noescape>
+                            [Place Holds screen with Basic Options]
+                        </code></pre>
+                        <p>Complete</p>
+                         <pre style="font-size:14pt"><code data-trim data-noescape>
+                            image::media/holds_title_options.png[Place Holds screen with Basic Options]
+                        </code></pre>
+                    </section>
+
+                </section>
+
+                <section>
+                    <section>
+                        <h3>More control over navigation</h3>
+                        <img src="img/egdocs_new_nav_circ.png">
+                    </section>
+
+                    <section>
+                        <h3>Divided Navigation</h3>
+                        <div style="float:left;width:45%">
+                        Main Navigation
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">antora.yml</div>
+                        <pre style="width:90%;font-size:10pt"><code data-trim data-noescape>
+                            name: docs
+                            title: Evergreen docs
+                            version: 'latest'
+                            nav:
+                            - modules/ROOT/nav.adoc
+                            - modules/installation/nav.adoc
+                            - modules/admin_initial_setup/nav.adoc
+                            - modules/using_staff_client/nav.adoc
+                            - modules/sys_admin/nav.adoc
+                            - modules/local_admin/nav.adoc
+                            - modules/acquisitions/nav.adoc
+                            - modules/cataloging/nav.adoc
+                            - modules/serials/nav.adoc
+                            - modules/circulation/nav.adoc
+                                .......
+                        </code></pre>
+                        </div>
+                        <div style="float:right;width:45%">
+                        <img src="img/new_repo_docs_antorayml.png">
+                        </div>
+                        <div style="clear:both"></div>
+                    </section>
+
+                    <section>
+                        <h4>Circ Module Navigation</h4>
+                        <div style="float:left;width:45%">
+                        Circulation folder
+                        <img src="img/new_repo_docs_circulation_nav.png">
+                        <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">modules / circulation / nav.adoc</div>
+                        <pre style="width:90%;font-size:10pt"><code data-trim data-noescape>
+                            * xref:circulation:introduction.adoc[Circulation]
+                            ** xref:circulation:circulating_items_web_client.adoc[Circulating Items]
+                            ** xref:circulation:basic_holds.adoc[Holds Management]
+                            ** xref:circulation:booking.adoc[Booking Module]
+                            ** xref:circulation:circulation_patron_records_web_client.adoc[Circulation - Patron Record]
+                            ** xref:admin:patron_self_registration.adoc[Patron Self-Registration Administration]
+                            ** xref:circulation:triggered_events.adoc[Triggered Events and Notices]
+                            ** xref:circulation:offline_circ_webclient.adoc[Offline Circulation]
+                            ** xref:circulation:self_check.adoc[Self Checkout]
+                        </code></pre>
+                        </div>
+                        <div style="float:right;width:45%">
+                        <img src="img/egdocs_new_nav_circ.png">
+                        </div>
+                        <div style="clear:both"></div>
+                        
+                    </section>
+
+                </section>
+
+                <section>
+                    <h3>Table of contents</h3>
+                    <p>Each page has a table of contents</p>
+                    <p style="font-size:14pt">Antora generates that magically based on subheading, sub-subheading, etc.</p>
+                    <div style="float:left;width:70%">
+                    <div style="font-size: 14pt;color: #6d41ce;margin-bottom: -15px;">modules / circulation / pages /<Br />circulating_items_web_client.adoc</div>
+                     <pre style="width:97%;font-size:10pt"><code data-trim data-noescape>
+                        = Circulating Items =
+                        :toc:
+
+                        Check Out
+                        ~~~~~~~~~~
+                    </code></pre>
+                    <p>":toc:" is all you need to make the Table of Contents</p>
+                    </div>
+                    <div style="float:right;width:25%"><img src="img/egdocs_new_toc.png"></div>
+                    <div style="clear:both"></div>
+                </section>
+
+                <section>
+                    <h4>Bonus</h4>
+                    <p style="font-size:12pt">A nice ASCIIDOC editing tool. ASCIIDOCFX</p>
+                    <img src="img/asciidocfx.png">
+                </section>
+                
+                <section>
+                    <h3>Handy links</h3>
+                    <ul>
+                    <li><a href="https://docs.antora.org/antora/2.3/">Antora</a></li>
+                    <li><a href="https://asciidocfx.com/">ASCIIDOCFX</a></li>
+                    <li><a href="https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/">Asciidoc quick reference</a></li>
+                    <li><a href="http://eg-docs.georgialibraries.org/prod/docs/latest/shared/about_this_documentation.html">Antora-ized Evergreen Documentation</a></li>
+                    </ul>
+                    
+                </section>
+
+				<section>
+					<h2>THE END</h2>
+					<h4>Blake Graham-Henderson</h4>
+					<h3>MOBIUS</h3>
+					<h4><a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></h4>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/antora">slides.mobiusconsortium.org/blake/antora</a></p>
+                    <p>Launchpad bug: <a href="https://bugs.launchpad.net/bugs/1848524">LP 1848524</a></p>
+
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+
+	</body>
+</html>

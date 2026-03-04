@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Catalog: What a Mess!</title>
+		
+		<meta name="author" content="Blake Graham Henderson">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.5, maximum-scale=5.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Catalog: What a Mess!</h2>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/evergreencatclean">slides.mobiusconsortium.org/blake/evergreencatclean</a></p>
+					<p>
+						<small>Created by Blake Graham-Henderson / <a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></small></p>
+					<p>	<small>Justin Hopkins helped too / <a href="mailto:justin@mobiusconsortium.org">justin@mobiusconsortium.org</a></small></p>
+					<p>Press ESC to browse slides</p>
+				</section>
+
+				<section>
+					<h1>What's broken?</h1>
+					<ul>
+						<li>Bib formats</li>
+						<li>Copy attachments</li>
+						<li>Bib identity crisis</li>
+						<li>Duplicate Bibs</li>
+					</ul>
+				</section>
+				<section>
+					<h1>Who broke it?</h1>
+					<p class="fragment">Funny story...</p>
+				</section>
+				<section>
+					<h1>This guy.</h1>
+					<img src="http://lj.libraryjournal.com/wp-content/uploads/Archives/assets/HambyBIG.jpg" />
+					<p class="fragment">JUST KIDDING!</p>
+				</section>
+				<section>
+					<h1>Seriously though,</h1>
+					<p>Everyone's data is different.</p>
+				</section>
+				<section>
+					<h1>What's broken?</h1>
+					<ul>
+						<li>Bib formats</li>
+						<li>Copy attachments</li>
+						<li>Bib identity crisis</li>
+						<li><strike>Duplicate Bibs</strike> (hooray‽)</li>
+					</ul>
+				</section>
+			<section>					
+					<h2>How do we solve it?</h2>
+					<ul>
+						<li>Query?</li>
+						<li><h6>SELECT ID FROM BIBLIO.RECORD_ENTRY WHERE ID IN <br />
+						(SELECT ID FROM metabib.record_attr_flat where attr='icon_format' and value <span style="color:red">'cdaudiobook'</span>)<br />
+						AND <br />
+						ID IN (SELECT RECORD FROM ASSET.CALL_NUMBER WHERE NOT DELETED AND ID IN(<br />
+						SELECT CALL_NUMBER FROM ASSET.COPY WHERE NOT DELETED AND CIRC_MODIFIER IS NOT <span style="color:red">'AudioBook'</span><br />
+						)<br />
+						)<br /></h6>
+						</li>
+						<li>How do we know the icon is correct?</li>
+					</ul>
+				</section>
+				
+				<section>					
+					<h2>Let's get serious</h2><br />
+					<ul style="text-align:left">
+						<li>Create a schema</li>
+						CREATE SCHEMA seekdestroy<br /><br />
+						<li>Create useful tables</li>
+						seekdestroy.job<br />
+						seekdestroy.bib_score<br />
+						seekdestroy.bib_merge<br />
+						seekdestroy.bib_match<br />
+						seekdestroy.problem_bibs<br />
+						seekdestroy.call_number_move<br />
+						seekdestroy.copy_move<br />
+						seekdestroy.bib_marc_update<br />
+					</ul>
+											
+				</section>
+				
+				<section>					
+					<h2>Scour the MARC</h2>
+					<h3>Create a scoring system</h3>
+				</section>								
+				<section>					
+					<h2>Electronic phrases</h2>					
+					<ul>
+						<li>electronic resource</li>
+						<li>ebook</li>
+						<li>eaudiobook</li>
+						<li>overdrive</li>
+						<li>download</li>
+						<li>ebrary</li>
+						<li>electronic reproduction</li>
+						<li>ebscohost</li>
+						<li>netlibrary</li>
+					</ul>
+				</section>
+				
+				<section>					
+					<h2>Audiobook phrases</h2>					
+					<ul>
+						<li>audiobook</li>
+						<li>audio book</li>
+						<li>compact dis</li>
+						<li>sound dis</li>
+						<li>hachette audio</li>
+						<li>books on tape</li>
+						<li>audiodisc</li>
+						<li>Random House Audio</li>
+						<li>Talking books</li>
+						<li>Recorded Books</li>
+						<li>sound casse</li>
+					</ul>
+				</section>				
+
+				<section>					
+					<h2>Large Print Book phrases</h2>					
+					<ul>
+						<li>Large type books</li>
+						<li>Large print</li>
+						<li>lg print</li>
+						<li>SightSaving</li>
+						<li>lg. print</li>
+						<li>lg prt.</li>
+						<li>lg. prt.</li>
+						<li>Thorndike Press</li>
+						<li>centerpoint</li>
+						<li>center point</li>
+					</ul>
+				</section>		
+				<section>					
+					<h2>Video phrases</h2>					
+					<ul>
+						<li>dvd</li>
+						<li>video recording</li>
+						<li>video format</li>
+						<li>videorecording</li>
+						<li>videodisc</li>
+						<li>interview with the producer</li>
+						<li>original TV promo</li>
+						<li>Special features</li>
+						<li>screenplay</li>
+					</ul>
+				</section>	
+				<section>					
+					<h2>Music phrases</h2>					
+					<ul>
+						<li>music</li>
+						<li>sound record, soundrecord</li>
+						<li>sound dis, Compact dis</li>
+						<li>song</li>
+						<li>Piano</li>
+						<li>Jazz</li>
+						<li>Saxophone</li>
+						<li>Symphony</li>
+						<li>Orchestra</li>
+						<li>vocals</li>
+						<li>sound track</li>
+						<li>soundtrack</li>
+						<li>instrumentals</li>
+						<li>guitar</li>
+						<li>perform</li>
+						<li>composer</li>
+					</ul>
+				</section>
+				<section>					
+					<h2>Results</h2>
+					<div style="float:left;font-size: 12pt; line-height:1.1em">
+						<img src="img/scoring_example.PNG" />
+					</div>
+						<div style="float:right">
+						<ul>
+							<li>2 Points Music</li>
+							<li>1 Point Audiobook</li>
+							<li>First Place: Music</li>
+							<li>Second Place: Audiobook</li>
+							<li>Scoring Distance: 1</li>
+						</ul>
+						</div>
+						<div style="clear:both" /> 
+						<div style="float:left;font-size: 12pt; line-height:1.1em">
+							<span style="font-size: 14pt">Music phrases</span><br />
+							<span style="background-color:yellow">music</span>,sound record,soundrecord,<Br />
+							<span style="background-color:yellow">sound dis</span>,Compact dis,song,<Br />
+							Piano,Jazz,Saxophone,Symphony,<Br />
+							Orchestra,vocals,sound track,soundtrack,<Br />
+							instrumentals,guitar,perform,composer						
+						</div>		
+						<div style="float:right;font-size: 12pt; line-height:1.1em">
+							<span style="font-size: 14pt">Audiobook phrases</span><br />
+							audiobook,audio book,compact dis,<span style="background-color:yellow">sound dis</span>,<Br />
+							hachette audio,books on tape,audiodisc,<Br />
+							Random House Audio,Talking books,Recorded Books,<Br />
+							sound casse					
+						</div>		
+
+				</section>
+				<section>					
+					<h2>Results</h2>
+					<div style="float:left;font-size: 12pt; line-height:1.1em">
+						<img src="img/scoring_example2.PNG" style="width:500px" />
+					</div>
+						<div style="float:right">
+						<ul>
+							<li>5 Points Music</li>
+							<li>2 Points Audiobook</li>
+							<li>First Place: Music</li>
+							<li>Second Place: Audiobook</li>
+							<li>Scoring Distance: 3</li>
+							<li>245 is special</li>
+						</ul>
+						</div>
+						<div style="clear:both" /> 
+						<div style="float:left;font-size: 12pt; line-height:1.1em">
+							<span style="font-size: 14pt">Music phrases</span><br />
+							<span style="background-color:yellow">music</span>,sound record,soundrecord,<Br />
+							<span style="background-color:yellow">sound dis</span>,<span style="background-color:yellow">Compact dis</span>,song,<Br />
+							Piano,Jazz,Saxophone,<span style="background-color:yellow">Symphony</span>,<Br />
+							<span style="background-color:yellow">Orchestra</span>,vocals,sound track,soundtrack,<Br />
+							instrumentals,guitar,perform,composer						
+						</div>		
+						<div style="float:right;font-size: 12pt; line-height:1.1em">
+							<span style="font-size: 14pt">Audiobook phrases</span><br />
+							audiobook,audio book,<span style="background-color:yellow">compact dis</span>,<span style="background-color:yellow">sound dis</span>,<Br />
+							hachette audio,books on tape,audiodisc,<Br />
+							Random House Audio,Talking books,Recorded Books,<Br />
+							sound casse					
+						</div>		
+
+				</section>		
+				<section>					
+					<h2>Results</h2>
+					<div style="float:left;font-size: 12pt; line-height:1.1em">
+						<img src="img/scoring_example3.PNG" style="height: 345px;width: 509px;" />
+					</div>
+						<div style="float:right">
+						<ul>
+							<li>3 Points Video</li>
+							<li>1 Point Music</li>
+							<li>First Place: Video</li>
+							<li>Second Place: Music</li>
+							<li>Scoring Distance: 2</li>
+						</ul>
+						</div>
+						<div style="clear:both" /> 
+						<div style="float:left;font-size: 12pt; line-height:1.1em">
+							<span style="font-size: 14pt">Music phrases</span><br />
+							<span style="background-color:yellow">music</span>,sound record,soundrecord,<Br />
+							sound dis,Compact dis,song,<Br />
+							Piano,Jazz,Saxophone,Symphony,<Br />
+							Orchestra,vocals,sound track,soundtrack,<Br />
+							instrumentals,guitar,perform,composer						
+						</div>		
+						<div style="float:right;font-size: 12pt; line-height:1.1em">
+							<span style="font-size: 14pt">Video phrases</span><br />
+							<span style="background-color:yellow">dvd</span>,video recording,video format,videorecording,<br />
+							<span style="background-color:yellow">videodisc</span>,interview with the producer,original TV promo,<br />
+							<span style="background-color:yellow">Special features</span>,screenplay<br />
+						</div>		
+
+				</section>								
+				<section>					
+					<h2>Finalize the "auto" query</h2>						
+						<img src="img/music_auto_convert_query.PNG" />
+						<p>Let's break it down...</p>
+				</section>	
+				<section>					
+					<h2>We don't want</h2>
+						<img src="img/music_auto_convert_query_section1.PNG"  style="height: 301px;" />
+				</section>	
+				<section>
+					<h2>We don't want</h2>
+						<img src="img/music_auto_convert_query_section2.PNG" style="height: 545px;" />
+				</section>	
+				<section>
+					<h2>We don't want</h2>
+						<img src="img/music_auto_convert_query_section3.PNG" style="height: 545px;" />
+				</section>	
+				<section>
+					<h2>We don't want</h2>
+						<img src="img/music_auto_convert_query_section4.PNG" />
+				</section>	
+				<section>
+					<h2>We don't want</h2>
+						<img src="img/music_auto_convert_query_section5.PNG" />
+				</section>	
+				<section>
+					<h2>We don't want</h2>
+						<img src="img/music_auto_convert_query_section6.PNG" />
+				</section>	
+				<section>
+					<h2>We want</h2>
+						<img src="img/music_auto_convert_query_section7.PNG" />
+				</section>	
+				<section>
+				<h2>Now we can do something!</h2>
+					<img src="img/Music_results1.PNG" />
+					<img src="img/Music_results2.PNG" />
+				</section>
+				<section>
+				<h2>This is interesting!</h2>
+					<img src="img/Music_results_OPAC_DVD.PNG" />
+				</section>
+				<section>
+				<h2>This is interesting!</h2>
+					<img src="img/DVD_results_OPAC.PNG" />
+				</section>
+				<section>
+				<h2>What we did</h2>
+				<h3>Electronic</h3>
+					<ul>
+					<li>
+						Converted 5,691 Bibs to Electronic
+					</li>
+					<li>						
+						8,992 Physical Items Moved from Electronic Bibs
+					</li>
+					<li>						
+						1,304 Physical Items Needs Humans
+					</li>
+					</ul>
+				<h3>Audiobook</h3>
+					<ul>
+					<li>
+						Converted 8,321 Bibs to Audiobook
+					</li>
+					<li>						
+						339 Needs Humans
+					</li>
+					</ul>
+				<h3>DVD</h3>
+					<ul>
+					<li>
+						Converted 25,555 Bibs to DVD
+					</li>
+					<li>						
+						1,623 Needs Humans
+					</li>
+					</ul>
+				<h3>Large Print</h3>
+					<ul>
+					<li>
+						Converted 17,450 Bibs to Large Print
+					</li>
+					<li>						
+						1026 Needs Humans
+					</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h1>THE END</h1>
+					<h3>Blake Graham-Henderson</h3>
+					<h3>MOBIUS</h3>
+					<h3><a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></h3>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/evergreencatclean">slides.mobiusconsortium.org/blake/evergreencatclean</a></p>
+					<p>Github repo:<br />
+					<a href="https://github.com/mcoia/mobius_evergreen/tree/master/seek_and_destroy">https://github.com/mcoia/mobius_evergreen/tree/master/seek_and_destroy</a>
+					</p>
+					
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

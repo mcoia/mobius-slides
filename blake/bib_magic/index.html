@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>BIB MAGIC</title>
+		
+		<meta name="author" content="Blake Graham Henderson">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.5, maximum-scale=5.0, user-scalable=no">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+        
+        <style>
+        .codesnip{
+        background-color:lightgrey;
+        }
+        </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3><span style="color:#af00ff91">BIB MAGIC</span> 
+                    <br />Enhanced MARC Importer
+                    </h3>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/bib_magic">slides.mobiusconsortium.org/blake/bib_magic</a></p>
+					<p>
+						<small>Created by Blake Graham-Henderson / <a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></small></p>
+					<p>Press ESC to browse slides</p>
+				</section>
+
+				<section>
+					<h3>We want this stuff:</h3>
+                    <span style="color: red"><img src="img/marc_files.png" width="1200px"><br />
+                
+				</section>
+
+				<section>
+					<h3>To look like this:</h3>
+                    <span style="color: red"><img src="img/search_results.png" width="1200px"><br />
+                    
+				</section>
+                
+                <section>
+                    <section>
+                        <h4>Introducing</h4>
+                        <h1> <span style="color:green">BIB MAGIC IMPORTER</span></h1>
+                    </section>
+                    <section>
+                        <h4><span style="color:green">Bib Magic Importer is:</span></h4>
+                        <ul >
+                            <li class="fragment">Amazing</li>
+                            <li class="fragment">Incredible</li>
+                            <li class="fragment">Phenomenal</li>
+                            <li class="fragment">Magnificent</li>
+                            <li class="fragment">Spectacular</li>
+                        </ul>
+                        <p class="fragment"><span style="color:red; font-size:22pt">No actual Google synonyms were harmed during the making of this slide</span></p>
+                    </section>
+                    <section>
+                        <h1>Allow me to show you why</h1>
+                    </section>
+				</section>
+
+                <section>
+                    <section>
+                        <h1>Ongoing imports</h1>
+                    </section>
+                    <section>
+                        <h2>Auto Electronic Scoping</h2>
+                        <ol>
+                            <li>Configure a list of participating libraries</li>
+                            <li>Auto merge subfield 9's</li>
+                            <li>Duplicate bibs from multiple vendors</li>
+                        </ol>
+                    </section>
+    
+                    <section>
+                        <h2>Authority Records</h2>
+                    </section>
+    
+                    <section>
+                        <h2>SILOS</h2>
+                        <p>Designed for compartmentalized MARC records per import project(s)</p>
+                    </section>
+    
+                    <section>
+                        <h2>Remote record retrieval</h2>
+                        <img src="img/reach_out.png">
+                        <p>FTP / Cloud Library / MARCIVE HTTPS</p>
+                        <div style="font-size:8pt"><a href="https://www.flickr.com/photos/photofarmer/2994403255">photo by Dwight Sipler</a></div>
+                    </section>
+
+                    <section>
+                        <h2>Match existing records</h2>
+                        <ol>
+                            <li>Incoming MARC can scope-match to it's own set</li>
+                            <li>But can be expanded to match any Evergreen bib</li>
+                            <li>Duplicate bibs are deduped and 856's are merged</li>
+                        </ol>
+                    </section>
+
+                    <section>
+                        <h2>Auto MARC Manipulation</h2>
+                        <p>Configure to change incoming MARC automatically</p>
+                        <p>Add fields</p>
+                        <p>Remove fields/subfields</p>
+                        <p>Replace fields/subfields</p>
+                        <p>Also works with control fields </p>
+                        
+                    </section>
+
+                    <section>
+                        <h2>Sync $9's</h2>
+                        <p>For electronic imports: newly added libraries can be retro-actively added to existing 856's</p>
+                    </section>
+
+                    <section>
+                        <h2>Results reporting</h2>
+                        <ol>
+                            <li>Import jobs will email a start/finish report</li>
+                            <li>Use Evergreen reporter to get more details</li>
+                        </ol>
+                        
+                    </section>
+    
+                </section>
+                
+                
+                <section>
+                    <section>
+                        <h1>Checklist</h1>
+                        <p>You'll need access to the server</p>
+                        <p>It's one Perl program</p>
+                        <img src="img/importer_script_file.png" width="800px">
+                    </section>
+
+                    <section>
+                        <h1>Checklist</h1>
+                        <p>Standard command</p>
+                        <pre>./bib_magic_importer.pl --config overdrive.conf</pre>
+                        <p>Sync $9's</p>
+                        <pre>./bib_magic_importer.pl --config overdrive.conf --syncnines</pre>
+                        <p>Force match on 901c only</p>
+                        <pre>./bib_magic_importer.pl --config overdrive.conf --match_901c</pre>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Let's take a look at that config file shall we?</h1>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Config</h1>
+                        <h6>The easy stuff</h6>
+                        <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Option</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>logfile</b></td><td>Path to write a log</td>
+                                </tr>
+                                <tr>
+                                    <td><b>domainname</b></td><td>Evergreen's root domain name, mydomain.org</td>
+                                </tr>
+                                <tr>
+                                    <td><b>archivefolder</b></td><td>Writable folder path to store processed files</td>
+                                </tr>
+                                <tr>
+                                    <td><b>tempspace</b></td><td>Path to a temp folder; used for authority processing</td>
+                                </tr>
+                                <tr>
+                                    <td><b>incomingmarcfolder</b></td><td>Folder path for <span style="color:green">folder type import</span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>dbhost</b></td><td>Postgres server host</td>
+                                </tr>
+                                <tr>
+                                    <td><b>db</b></td><td>PG Database name</td>
+                                </tr>
+                                <tr>
+                                    <td><b>dbuser</b></td><td>PG DB Username</td>
+                                </tr>
+                                <tr>
+                                    <td><b>dbpass</b></td><td>PG DB password</td>
+                                </tr>
+                                <tr>
+                                    <td><b>port</b></td><td>PG DB port</td>
+                                </tr>
+                                <tr>
+                                    <td><b>do_not_import_new</b></td><td>Don't allow new records to be imported</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </section>
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">recordsource</p>
+                        <pre>
+##########################################################
+# Options are: FTP or folder or cloudlibrary or marcivehttps
+# Note: cloudlibrary option enables the API connection to
+# the remote server.
+##########################################################
+Examples:
+recordsource = folder
+recordsource = cloudlibrary
+recordsource = FTP
+recordsource = marcivehttps
+                        </pre>
+                    </section>
+                    <section>
+                        <h1>Config</h1>
+                        <p>Remote server stuff</p>
+                        <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Option</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>server</b></td><td>FTP/cloudlibrary API URL</td>
+                                </tr>
+                                <tr>
+                                    <td><b>login</b></td><td>FTP username / cloudlibrary "Library ID"</td>
+                                </tr>
+                                <tr>
+                                    <td><b>password</b></td><td>FTP password / cloudlibrary "Library API Key"</td>
+                                </tr>
+                                <tr>
+                                    <td><b>remotefolder</b></td><td>Remote FTP folder</td>
+                                </tr>
+                                <tr>
+                                    <td><b>recurse</b></td><td>Optionally recurse FTP folders</td>
+                                </tr>
+                                <tr>
+                                    <td><b>lastdatefile</b></td><td>cloudlibrary only: path to writable file for cloudlibrary</td>
+                                </tr>
+                                <tr>
+                                    <td><b>certpath</b></td><td>cloudlibrary only</td>
+                                </tr>
+                                <tr>
+                                    <td><b>certkeypath</b></td><td>cloudlibrary only</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">sourcename</p>
+                        <pre>
+###################################################################
+# This is a way to keep track of the set of records in the
+# database. This string value will be entered into
+# config.bib_source if it doesn't exist. All imported
+# records will be tagged with this string value as the source.
+# NOTE: Auto record deduplication does not cross sources. Therefore,
+# if you have multiple electronic MARC record imports, it could be
+# a good idea to use the same source value for each such that the
+# records can merge onto eachother. 856's are melted together each
+# with the appropriate participant $9's.
+##################################################################
+Examples:
+sourcename = overdrive
+sourcename = electronic
+                        </pre>
+                    </section>
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">sourcename</p>
+                        <img src="img/record_source_dropdown.png">
+                    </section>
+                    
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">bibtag</p>
+                        <p>Think of it as a record sub-category</p>
+                        <pre>
+############################################################
+# This value is appended to the tcn_source when bibs
+# are imported. Later, this is referenced during removals.
+# Only bibs with this same tag will be scoped when searching
+# for removals. import_as_is will cause this setting to be ignored
+############################################################
+Examples:
+bibtag = overdrive_advantage
+bibtag = gov_docs
+                        </pre>
+                    </section>
+                    
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">tcn_source_authority</p>
+                        <p>This needs to (almost) always be "yes"</p>
+                        <p>You might want to disable this if you are importing records that you exported from Evergreen</p>
+                    </section>
+                
+                    
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">participants</p>
+                        
+                        <pre>
+############################################################
+# Comma separated list of shortnames for each of the
+# branches/systems that will be included in the 856$9 values
+############################################################
+Examples:
+participants = SYS1,SYS2
+participants = BR1,BR2
+participants = SYS1,BR2
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">merge_9s</p>
+                        
+                        <pre>
+#######################################################
+# If there is a matching record in the database, and
+# that matching record has an identical 856 with a matching
+# $u, then we will merge all of the $9's together or not.
+#######################################################
+Examples:
+# merge_9s = yes
+merge_9s = yes
+                        </pre>
+                    </section>
+                       
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">import_as_is</p>
+                        
+                        <pre>
+#######################################################
+# Short circuit any code that would change the MARC
+#
+# You can optionally cause the software to do nothing
+# to the marc and import as-is This is usually in
+# conjuction with passing --match_901c to the script
+# 
+#######################################################
+Examples:
+# import_as_is = yes
+import_as_is = yes
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">Filename matching</p>
+                        <p>These options help the script understand which file(s) you would like it to process. And if a file should be treated as a "removal" instead of an "add".</p>
+                        <p>All options are space delimited</p>
+                        
+                        <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Option</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>onlyprocess</b></td><td>AKA: magazine mrc</td>
+                                </tr>
+                                <tr>
+                                    <td><b>ignorefiles</b></td><td>AKA: .xls </td>
+                                </tr>
+                                <tr>
+                                    <td><b>removalfiles</b></td><td>AKA: weed removal delete</td>
+                                </tr>
+                                <tr>
+                                    <td><b>authorityfiles</b></td><td>AKA: authority auth</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">authority_link_script_cmd</p>
+                        <pre>
+#######################################################
+# When importing authority records, we will automatically
+# run the linking script but we need to know where
+# it is and the cmd switches
+#######################################################
+Example (line breaks for presentation):
+
+authority_link_script_cmd =
+/openils/bin/authority_control_fields.pl
+        --config /openils/conf/opensrf_core.xml
+        --record
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">eg_staged_bib_overlay_dir</p>
+                        <pre>
+#######################################################
+# If you use this script to import authority files,
+# you will also need to have the "eg_staged_bib_overlay"
+# script available. This is where you define the path
+# to the root folder.
+# git repo
+# https://github.com/EquinoxOpenLibraryInitiative/migration-tools
+#######################################################
+Example:
+eg_staged_bib_overlay_dir = /path/to/migration-tools
+                                                    </pre>
+                    </section>
+
+                    <section>
+                        <h1>Config</h1>
+                        <p style="color:red">Email notifications</p>
+                        <p>All options are comma delimited</p>
+                        
+                        <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Option</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>erroremaillist</b></td><td>Only alerts errors</td>
+                                </tr>
+                                <tr>
+                                    <td><b>successemaillist</b></td><td>People who want the success results</td>
+                                </tr>
+                                <tr>
+                                    <td><b>alwaysemail</b></td><td>Can only be one email address</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pre>
+erroremaillist = admin@mydomain.org
+successemaillist = cataloger@mydomain.org, data+fun@mydomain.org
+alwaysemail = someone@mydomain.org
+                        </pre>
+                    </section>
+
+      
+            </section>
+
+            <section>
+                <h1>Make sense?</h1>
+                <img src="img/make_sense.png" >
+            </section>
+
+        <section>
+            <section>
+                <h1>MARC MANIPULATIONS</h1>
+                <img src="img/understand_marc.png" >
+                <div style="font-size:8pt"><a href="https://www.loc.gov/marc/umb/">image from LoC</a></div>
+            </section>
+            <section>
+                <h2>MARC MANIPULATIONS</h2>
+                <p style="color:green">Adding Fields</p>
+                <div style="font-size:12pt;color:red">Line breaks for presentation slide</div>
+                <pre>
+marc_edit_standard_1 = 'type' => 'add',
+'def' => ['650','0','0','a','Whatever you want to add']
+                </pre>
+            </section>
+            <section>
+                <h2>MARC MANIPULATIONS</h2>
+                <p style="color:green">Removing Whole Fields</p>
+                <div style="font-size:12pt;color:red">Line breaks for presentation slide</div>
+                <pre>
+marc_edit_standard_2 = 'type' => 'remove',
+'def' => ['852','853','995']
+                </pre>
+            </section>
+            <section>
+                <h2>MARC MANIPULATIONS</h2>
+                <p style="color:green">Conditionally remove fields</p>
+                <div style="font-size:12pt;color:red">Line breaks for presentation slide</div>
+                <pre>
+marc_edit_standard_3 = 'type' => 'remove',
+'howmany' => 'all',
+'def' => ['856_4_none_3', '856_1_1_a', '651_all_all_b']
+                </pre>
+            </section>
+            <section>
+                <h2>MARC MANIPULATIONS</h2>
+                <p style="color:green">Removing subfields instead of whole fields</p>
+                <div style="font-size:12pt;color:red">Line breaks for presentation slide</div>
+                <pre>
+marc_edit_standard_4 = 'type' => 'removesubfield',
+'howmany' => 'all',
+'def' => ['756', 'q']
+                </pre>
+            </section>
+            <section>
+                <h2>MARC MANIPULATIONS</h2>
+                <p style="color:green">Replace</p>
+                <div style="font-size:12pt;color:red">Line breaks for presentation slide</div>
+                <pre>
+marc_edit_standard_5 = 'type' => 'replace',
+'howmany' => 'all',
+'def' => ['856','same','same','y','Click for online content.']
+                </pre>
+            </section>
+            <section>
+                <h2>MARC MANIPULATIONS</h2>
+                <p style="color:green">Control fields</p>
+                <div style="font-size:12pt;color:red">Line breaks for presentation slide</div>
+                <pre>
+marc_edit_<span style="color:red">control</span>_1 = 'type' => 'replace', 'def' => ['008','24','o']
+marc_edit_<span style="color:red">control</span>_2 =
+        'type' => 'remove',
+        'howmany' => '1',
+        'def' => ['007']
+marc_edit_<span style="color:red">control</span>_3 =
+        'type' => 'replace',
+        'def' => ['007','1','vd cvaizq']
+                </pre>
+            </section>
+    </section>
+
+    <section>
+        <h2>And that's it!</h2>
+        <img src="img/french_toast.png" style="width:200px" >
+        <div style="font-size:8pt"><a href="https://www.nicepng.com/ourpic/u2q8y3r5i1a9i1u2_graphic-royalty-free-download-french-toast-comes-to/">photo by nicepng</a></div>
+        <h4>Sit back, relax</h4>
+        <h4>Leave it to <span style="color:green">BIB Magic</span></h4>
+        <h4>Get other work done</h4>
+    </section>
+
+    <section>
+        <section>
+            <h2>Reporting</h2>
+            <p><span style="color:green">BIB Magic</span> has it's own database schema: bib_magic</p>
+        </section>
+        <section>
+            <h2>Reporting</h2>
+            <p style="color:green">Bib Magic Job</p>
+            <p>Each import creates a "job" which is assigned a sequential ID number</p>
+            
+            <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Table Columns</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Start Time</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Update Time</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Status</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Current Action</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Current Action Number</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Reporting</h2>
+            <p style="color:green">Bib Magic Import Status</p>
+            <p>Each job contains bib with details in this table</p>
+            
+            <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Table Columns</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Bib Tag</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>File Name</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>001</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Title</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>SHA1</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Status</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Processed</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Update Time</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>MARC XML</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Record ID</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Reporting</h2>
+            <p style="color:green">Bib Magic MARC Update</p>
+            <p>When a bib is overlayed, it's recorded here</p>
+            <p>Makes the bib update reversable</p>
+            
+            <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Table Columns</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Record ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Previous MARC</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Changed MARC</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>New Bib?</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Update Time</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Reporting</h2>
+            <p style="color:green">Bib Magic Item Reassignement</p>
+            <p>If items are moved to another bib, it's recorded here</p>
+            <p>Makes the bib merge reversable</p>
+            
+            <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Table Columns</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Copy ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Previous Bib ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Destination Bib ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Move Time</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Reporting</h2>
+            <p style="color:green">Bib Magic BIB Merge</p>
+            <p>When two bibs are merged, it's recorded here</p>
+            <p>Makes the merge reversable</p>
+            
+            <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Table Columns</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Lead Record ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sub Record ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Update Time</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Reporting</h2>
+            <p style="color:green">Bib Magic Nine Sync</p>
+            
+            <table style="font-size:14pt"><thead style="font-size:20pt;color:blue"><tr><th>Table Columns</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Record ID</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nines Synced</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Affected URL</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Update Time</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </section>
+    <section>
+        <h2>Example Email</h2>
+        <pre style="font-size:12pt">
+Hi Team,
+Thanks for your file(s). It took me some time to work on it:
+0 days, 0 hours, 07 minutes and 30 seconds
+I've digested the file(s):
+--- ME-1075-20230224084143-Audio-1.mrc ---
+    147 Total record(s)
+    144 inserted
+    3 matched and overlayed
+--- ME-1075-20230224084143-eBook-1.mrc ---
+    474 Total record(s)
+    462 inserted
+    12 matched and overlayed
+
+--- Grand Total ---
+621 Total
+606 inserted
+15 Record(s) were updated
+
+Import Type: folder
+
+Yours Truly,
+The friendly MOBIUS server
+        </pre>
+    </section>
+
+    <section>
+        <h2>THE END</h2>
+        <h4>Blake Graham-Henderson</h4>
+        <h3>MOBIUS</h3>
+        <h4><a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></h4>
+        <p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/bib_magic">slides.mobiusconsortium.org/blake/bib_magic</a></p>
+        <p>Launchpad bug: <a href="https://bugs.launchpad.net/bugs/1947898">LP 1947898</a></p>
+
+    </section>
+
+			</div>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+
+	</body>
+</html>

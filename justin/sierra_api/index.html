@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Welcome to the desert of the <i>real</i></h1>
+					<h3>A quick and dirty getting started guide to the Sierra APIs</h3>
+					<p>
+						<small>Created by <a href="mailto:justin@mobiusconsortium.org">Justin Hopkins</a></small>
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>APIs Drop April 28, 2014</h2>
+										<p>
+											Yeah, like a month ago...
+										</p>
+					</section>
+					<section>
+						<h2>Details ahead</h2>
+										<p>
+											This is your last chance. After this, there is no turning back. You take the blue pill - the story ends, you wake up in your bed and believe whatever you want to believe. You take the red pill - you stay in Wonderland and I show you how deep the rabbit-hole goes.
+										</p>
+					</section>
+					<section>
+						<h2>Good news</h2>
+										<p>
+											It's not that deep.
+										</p>
+					</section>
+					<section>
+						<h2>Log into the admin application</h2>
+						<img src="images/1-admin.png" />
+						<p>i.e. <a href="https://galahad.searchmobius.org/sierra/admin">https://galahad.searchmobius.org/sierra/admin</a></p>
+					</section>
+					<section>
+						<h2>This menu item is your friend</h2>
+						<p>
+							If you don't have it, you'll need to add the permission "Api Consumer Administration (1052)"
+						</p>
+						<img src="images/2-menu.png" />
+						
+					</section>
+					<section>
+						<h2>Add a client/key</h2>
+						<img src="images/3-add-new.png" />
+						
+					</section>
+					<section>
+						<h2>Enter client information</h2>
+						<img src="images/4-create.png" />
+					</section>
+					<section>
+						<h2>Verify via email</h2>
+						<img src="images/5-email.png" />
+					</section>
+					<section>
+						<h2>receive your key and set up your client secret</h2>
+						<img src="images/6-secret.png" />
+					</section>
+					<section>
+						<h2>Are we there yet?</h2>
+						<p class="fragment">Yes.</p>
+					</section>
+					<section>
+						<h2>You can't decode the matrix</h2>
+						<pre><code data-trim contenteditable>
+require 'oauth2'
+
+baseurl = "https://galahad.searchmobius.org/"
+
+client = OAuth2::Client.new('API_KEY_HERE', 'CLIENT_SECRET_HERE', :site => "#{baseurl}", :token_url => '/iii/sierra-api/v1/token')
+
+token = client.client_credentials.get_token
+
+beforeDate = Time.now.utc.iso8601.to_s
+afterDate = (Time.now - (2*7*24*60*60)).utc.iso8601.to_s
+
+response = token.get('iii/sierra-api/v1/bibs?createdDate=[' + afterDate + ',' + beforeDate + ']&deleted=false&suppressed=false')
+
+
+# results is a Hash, containing one key/value: "entries"
+results = response.parsed
+# entries is an array, each value is a Hash.
+entries = results["entries"]
+
+# API returns results sorted by id, which tends to result in newer stuff last
+# We want newer stuff first
+entries = entries.sort_by!{|value| value.fetch("createdDate", "")}.reverse
+
+puts "<h1>New titles added in the last two weeks</h1>"
+entries.each do |value|
+  recordUrl = baseurl + "record=b" + value.fetch("id", "").to_s
+  createDate = Time.iso8601(value.fetch("createdDate", "")).to_s
+  title = value.fetch("title", "")
+
+  puts <<-eos
+
+    <h2>#{title}</h2>
+    <ul>
+      <li>Added on: #{createDate}</li>
+      <li><a href="#{recordUrl}">View in catalog</a></li>
+    </ul>
+
+  eos
+end
+						</code></pre>
+						<p>"I don't even see <a href="./SierraAPITest.rb">the code</a>."</p>
+					</section>
+					<section>
+					<h2>The output</h2>
+					<p>Yes, it's ugly.</p>
+					<iframe src="./output.html" style="width: 100%; height: 10em"></iframe>
+					<p class="fragment">But it works!</p>
+					</section>
+				</section>
+				<section>
+					<h2>I think we're done here.</h2>
+					<img src="images/matrix_cat.gif"></img>
+					<p>Slides: <a href="http://bit.ly/sierra_api">http://bit.ly/sierra_api</a></p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

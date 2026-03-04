@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Evergreen and Google Containers</title>
+		
+		<meta name="author" content="Blake Graham Henderson">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=.5, maximum-scale=5.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+        
+        <style>
+        .codesnip{
+        background-color:lightgrey;
+        }
+        </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Evergreen Google Containers</h2>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/evergreengoogledocker">slides.mobiusconsortium.org/blake/evergreengoogledocker</a></p>
+					<p>
+						<small>Created by Blake Graham-Henderson / <a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></small></p>
+					<p>Press ESC to browse slides</p>
+				</section>
+
+				<section>
+					<h1>Crossroads</h1>
+					<ul>
+                        <li>Stay the same</li>
+                        <ul>
+						<li>Buy new servers</li>
+						<li>Renew contract with hosting company</li>
+                        <li>Continue processes for upgrades and rollouts</li>
+                        </ul>
+                        <li>Go another direction</li>
+                        <ul>
+						<li>Cloud hosting cost analysis</li>
+                        </ul>
+					</ul>
+				</section>
+				<section>
+					<h1>What's needed?</h1>
+                    <ul>
+					<li class="fragment">Database server(s), SSDs</li>
+                    <li class="fragment">Application/Utility Server(s)</li>
+                    <li class="fragment">Load balancing</li>
+                    <li class="fragment">Networking, public IPs, bandwidth</li>
+                    </ul>
+				</section>
+                
+                <section>
+					<h1>Virtual Machines</h1>
+                    <ul>
+                    <li>VM hosting, 4CPU, 15GB Memory, 100GB disk = $101.09</li>
+                    </ul>
+                    <img src = "img/googleprice.png" width="900px" />
+				</section>
+				<section>
+					<h2>Docker is interesting</h2>
+                     <img src = "img/dockergraph.png" width="550px" />
+				</section>
+				<section>
+					<h1>Benefit</h1>
+                    <h2>No longer need to worry about</h2>
+					<ul>
+						<li>/etc/ha.d/*</li>
+						<li>Bandwidth issues</li>
+						<li>Network failover</li>
+                        <li class="fragment">Networking in general</li>
+                        <li class="fragment">SCALING!</li>
+                        <span class="fragment">O.</span>
+                        <span class="fragment">M.</span>
+                        <span class="fragment">GI</span>
+                        <span class="fragment">GI</span>
+                        <span class="fragment">'</span>
+                        <span class="fragment">s</span>
+                        <span class="fragment">s</span>
+					</ul>
+				</section>
+			<section>					
+					<h2>Start local Docker</h2>
+                    <h3>Surprise! It's easy!</h3>
+					<ul>
+						<li class="fragment" ><span class="codesnip">apt-get install docker-engine</span> (read distro docs)</li>
+                        <li class="fragment codesnip" >docker pull ubuntu</li>
+                        <li class="fragment codesnip" >docker run -it ubuntu</li>
+					</ul>
+                   <p class="fragment"> <img src = "img/dockerrun.png" width="900px" /></p>
+            </section>
+				
+				<section>					
+					<h2>Customize the container</h2>
+					<ul>
+                        <li>Docker images do not allow fs mounting at runtime</li>
+						<li>Folder mapping -v</li>
+						<li>Ports -p</li>
+                        <li>Hostname -h</li>
+					</ul><br />
+                    <p class="fragment" style="font-size:18pt;background-color:lightgrey;text-align:left">
+						docker run -it -p 80:80 -p 210:210 -p 443:443 -p 32:22 -p 7680:7680 -p 7682:7682 \<br />
+                        -p 6001:6001 -v /mnt/evergreen:/dfsdump -v /home/blake:/mnt/evergreen \<br />
+                        -v /etc/timezone:/etc/timezone:ro -h docker-app1.missourievergreen.org 5ba180628aec<br />
+                    </p>
+				</section>
+				
+				<section>					
+					<h2>Bare bones</h2>
+					<h3>And I mean BARE!</h3>
+                    <ul>
+						<li>No syslog</li>
+						<li>No logrotate</li>
+						<li>No ssh</li>
+						<li>No sudo</li>
+						<li>No cron</li>
+						<li>NOTHING</li>
+					</ul>
+				</section>								
+				<section>					
+					<h2>Dockerfile</h2>					
+					<ul>
+                        <li>FROM</li>
+						<li>EXPOSE</li>
+						<li>RUN</li>
+						<li>ADD</li>
+						<li>ENTRYPOINT</li>
+					</ul>
+                    <h3><a href="https://github.com/mcoia/eg-docker/blob/master/docker_builds/ksl/Dockerfile">Example here</a></h3>
+                    <h3><span class="codesnip" >cd /folder && docker build .</span></h3>
+				</section>
+				
+				<section>					
+					<h2>Automate Evergreen installation</h2>
+                    <h3>Ansible is sweet!</h3>
+					<ul>
+						<li>Run commands as different users</li>
+						<li>Variables</li>
+					</ul>
+                    <h3><a href="https://github.com/mcoia/eg-docker/blob/master/docker_builds/ksl/16.04_master_cloud.yml">Example here</a></h3>
+                    <p class="codesnip" >cd /egconfigs && ansible-playbook install_evergreen.yml -v -e "hosts=127.0.0.1"</p>
+				</section>				
+
+				<section>					
+					<h2>A word about ENTRYPOINT</h2>
+					<ul>
+						<li>Docker normally exists after container finishes</li>
+						<li>Need to run something that will only exit when error</li>
+                        <li>This works</li>
+                        <li class="fragment codesnip" >&& while true; do sleep 1; done</li>                        
+					</ul>
+				</section>		
+				<section>					
+					<h2>Start your engines!</h2>
+					<ul>
+						<li>Wait! First, we need to make a beefy postgres server</li>
+                        <li>Standard VM</li>
+                        <li>SSDs</li>
+                        <ul>
+                            <li>How many?</li>
+                            <li>Speed?</li>
+                            <li>Let's see</li>
+                        </ul>
+					</ul>
+				</section>	
+                <section>					
+					<h2>Postgres needs IOPS!</h2>
+                    <h3>Google offers</h3>
+                    <img src="img/diskmatrix.png" />
+				</section>	
+				<section>
+					<h2>Create DB VM</h2>
+					<ul>
+						<li>16 CPU, 102GB Memory</li>
+						<li>Add "Local SSD" 375GB each</li>
+						<li>280,000 IOPS</li>
+					</ul>
+                    <img src="img/localSSDSelect.png" />
+				</section>
+				<section>					
+					<h2>Is it really 280,000 IOPS?</h2>
+                    <div>
+						<p style="background-color:lightgrey;text-align:left">
+                        fio --name=writefile --size=100G --filesize=100G \<br />
+                        --filename=/dev/sdb --bs=4k --nrfiles=1 \<br />
+                        --direct=1 --sync=0 --randrepeat=0 --rw=read --refill_buffers --end_fsync=1 \<br />
+                        --iodepth=200 --ioengine=libaio<br />
+                        </p>
+						</div>	
+					<div style="font-size: 12pt; line-height:1.1em">
+						<img src="img/singleiops.png" width="900px" />
+					</div>
+                        <h3>It's 184k!</h3>
+
+				</section>
+				<section>					
+					<h2>Let's try RAID10</h2>
+						<img src="img/raid10ssd.png" style="width:500px" />
+				</section>		
+                <section>					
+					<h2>Let's try RAID10</h2>
+                    <div style="float:left;font-size: 16pt; line-height:1.1em; width:400px">
+						<p style="background-color:lightgrey;text-align:left">
+							mdadm \<br />
+                            --create /dev/md0 \<br />
+                            <span style="background-color:yellow">--level=10</span> \<br />
+                            --raid-devices=4 \<br />
+                            /dev/disk/by-id/google-local-ssd-0 \<br />
+                            /dev/disk/by-id/google-local-ssd-1 \<br />
+                            /dev/disk/by-id/google-local-ssd-2 \<br />
+                            /dev/disk/by-id/google-local-ssd-3
+						</p>
+                        <p style="background-color:lightgrey;text-align:left">
+							mdadm --detail /dev/md0
+						</p>
+                    </div>
+                        <div style="float:right">
+                        <img src="img/mdadmdetail.png" style="width: 539px;" />
+                        </div>
+				</section>
+                 <section>
+					<h2>RAID10 test 4k</h2>
+                    <div>
+						<p style="background-color:lightgrey;text-align:left">
+                        fio --name=writefile --size=100G --filesize=100G \<br />
+                        --filename=/dev/md0 <span style="background-color:yellow">--bs=4k</span> --nrfiles=1 \<br />
+                        --direct=1 --sync=0 --randrepeat=0 --rw=read --refill_buffers --end_fsync=1 \<br />
+                        --iodepth=200 --ioengine=libaio<br />
+                        </p>
+						</div>	
+					<div style="font-size: 12pt; line-height:1.1em">
+						<img src="img/raid10_md0iops.png" width="900px" />
+					</div>
+                         <h3>It's 88k?</h3>
+				</section>
+                <section>
+					<h2>RAID10 test 512k</h2>
+                    <div>
+						<p style="background-color:lightgrey;text-align:left">
+                        fio --name=writefile --size=100G --filesize=100G \<br />
+                        --filename=/dev/md0 <span style="background-color:yellow">--bs=512k</span> --nrfiles=1 \<br />
+                        --direct=1 --sync=0 --randrepeat=0 --rw=read --refill_buffers --end_fsync=1 \<br />
+                        --iodepth=200 --ioengine=libaio<br />
+                        </p>
+						</div>	
+					<div style="font-size: 12pt; line-height:1.1em">
+						<img src="img/raid10fio512ktest.png" width="900px" />
+					</div>
+                         <h3>It's 1,038,000. Not Bad</h3>
+				</section>
+                <section>					
+					<h2>Let's try RAID0</h2>
+                    <div style="float:left;font-size: 16pt; line-height:1.1em; width:400px">
+						<p style="background-color:lightgrey;text-align:left">
+							mdadm \<br />
+                            --create /dev/md0 \<br />
+                            <span style="background-color:yellow">--level=0</span> \<br />
+                            --raid-devices=4 \<br />
+                            /dev/disk/by-id/google-local-ssd-0 \<br />
+                            /dev/disk/by-id/google-local-ssd-1 \<br />
+                            /dev/disk/by-id/google-local-ssd-2 \<br />
+                            /dev/disk/by-id/google-local-ssd-3
+						</p>
+                        <p style="background-color:lightgrey;text-align:left">
+							mdadm --detail /dev/md0
+						</p>
+                    </div>
+                        <div style="float:right">
+                        <img src="img/raid0mdadmdetail.png" style="width: 539px;height: 500px;" />
+                        </div>
+				</section>
+                <section>
+					<h2>RAID0 test 4k</h2>
+                    <div>
+						<p style="background-color:lightgrey;text-align:left">
+                        fio --name=writefile --size=100G --filesize=100G \<br />
+                        --filename=/dev/md0 <span style="background-color:yellow">--bs=4k</span> --nrfiles=1 \<br />
+                        --direct=1 --sync=0 --randrepeat=0 --rw=read --refill_buffers --end_fsync=1 \<br />
+                        --iodepth=200 --ioengine=libaio<br />
+                        </p>
+						</div>	
+					<div style="font-size: 12pt; line-height:1.1em">
+						<img src="img/raid0fio4ktest.png" width="900px" />
+					</div>
+                         <h3>180,364 IOPS</h3>
+				</section>
+                <section>
+					<h2>RAID0 test 512k</h2>
+                    <div>
+						<p style="background-color:lightgrey;text-align:left">
+                        fio --name=writefile --size=100G --filesize=100G \<br />
+                        --filename=/dev/md0 <span style="background-color:yellow">--bs=512k</span> --nrfiles=1 \<br />
+                        --direct=1 --sync=0 --randrepeat=0 --rw=read --refill_buffers --end_fsync=1 \<br />
+                        --iodepth=200 --ioengine=libaio<br />
+                        </p>
+						</div>	
+					<div style="font-size: 12pt; line-height:1.1em">
+						<img src="img/raid0fio512ktest.png" width="900px" />
+					</div>
+                         <h3>It's 1,991,000!</h3>
+                         <p class="fragment">Holy Cow</p>
+				</section>
+                <section>
+					<h2>A word about Local SSD</h2>
+                    <ul>
+                    <li>Google considers it "scratch" disk</li>
+                    <li>Make backups!</li>
+                    <li>Postgres replication</li>
+                    </ul>
+                    <p style="font-size:16pt;text-align:left;line-height:1.5em">
+                    Compute Engine offers <span style="background-color:yellow">always-encrypted</span> local solid-state drive (SSD) block storage for virtual machine instances. <span style="background-color:yellow">Each local SSD is 375 GB</span> in size, but you can attach up to eight local SSD devices for 3 TB of total local SSD storage space per instance . Optionally, you can format and mount multiple local SSD devices into a single logical volume.
+                    </p>
+                    <p style="font-size:16pt;text-align:left">
+                    Unlike persistent disks, local SSDs are physically attached to the server that hosts your virtual machine instance. This tight coupling offers superior performance, very high input/output operations per second (IOPS), and very low latency compared to persistent disks. See Persistent Disk and Local SSD Performance for details.
+                    </p>
+                    <p style="font-size:16pt;text-align:left;background-color:lightpink">
+                    Warning: The performance gains from Local SSDs require certain trade-offs in availability, durability, and flexibility. Because of these trade-offs, local SSD storage is not automatically replicated and all data on the local SSD may be lost if the instance terminates for any reason. See Local SSD data persistence for details.
+                    </p>
+				</section>
+               
+				<section>					
+					<h2>Take note of internal IP</h2>
+                    <img src="img/instance1IP.png" />
+                    <h2>Integrate into ansible and docker images</h2>
+				</section>
+                <section>					
+					<h2>How Google does it</h2>
+                    <h3>IT'S ALL PRIVATE IP SPACE</h3>
+                <div style="text-align:left">
+                    <h4 style="margin-bottom:-5px;font-weight:bold">Standard VMs</h4>
+                    <ul style="margin-bottom:10px">
+                        <li>VM private space IP</li>
+                    </ul>
+                    <h4 style="margin-bottom:-5px;font-weight:bold">Docker</h4>
+                    <ul>
+                        <li>Google Containers are VMs tuned for docker</li>
+                        <li>Pods = running docker image</li>
+                        <li>Deployed with YAML configs</li>
+                    </ul>
+                </div>
+				</section>
+				<section>
+					<h2>Turn the key to AUX position</h2>
+                    <ul>
+                    <li>Download JSON key</li>
+                    <li>Install gcloud SDK locally</li>
+                    </ul>
+				</section>
+                <section>
+					<h2>Getting JSON Key</h2>
+                    <ul>
+                    <li>Click hamburger -> IAM & Admin -> Service Accounts</li>
+                    <li>Create account and download key</li>
+                    </ul>
+                    <table><tr><td style="vertical-align:top">
+                    <img src="img/IAMAdmin.png" width="600px" />
+                    </td><td style="vertical-align:top">
+                    <img src="img/IAMAdminserviceaccount.png" width="300px" />
+                    </td></tr>
+                    </table>
+				</section>
+                <section>					
+					<h2>Install gcloud SDK</h2>
+                    <ul>
+                    <li class="codesnip" >gcloud auth activate-service-account --key-file [KEY_FILE]</li>
+                    <li class="codesnip" >gcloud config set account [email address]</li>
+                    <li class="codesnip" >gcloud config set compute/zone us-central1-c</li>
+                    <li class="codesnip" >gcloud config set project [projectID]</li>
+                    <li class="codesnip" >gcloud auth login</li>
+                    <li class="codesnip" >gcloud container --account [email address] --project [projectID]</li>
+                    </ul>
+				</section>
+                <section>					
+					<h2>Back to docker</h2>
+                    <ol>
+                    <li>Build local image</li>
+                    <li>Test local image</li>
+                    <li>Contribute image to google docker registry</li>
+                    </ol>
+				</section>
+                <section>					
+					<h2>Watch it fly!</h2>
+                    <ul>
+                        <li><span class="codesnip" >docker build .</span></li>
+                        <li>docker engine creates temp images per command</li>
+                    </ul>
+				</section>
+                <section>					
+					<h2>Check your local images</h2>
+                    <ol>
+                        <li class="codesnip" >docker images</li>
+                        <img src="img/dockerimages.png" style="height: 145px;" />
+                        <li>Test local</li>
+                        <ul><li><span class="codesnip" >docker run f42b5f3b175b</span></li></ul>
+                    </ol>
+				</section>
+                <section>
+					<h2>Send image up to the cloud</h2>
+                    <ol>
+                        <li class="codesnip" >docker tag [image hash] gcr.io/[project-id]/egapp</li>
+                        <li class="codesnip" >gcloud docker -- push gcr.io/[project-id]/egapp</li>
+                        <img src="img/gcloudpush.png" style="height: 445px;" />
+                    </ol>
+				</section>
+                 <section>
+					<h2>Done with docker</h2>
+                        <img src="img/containerregistry.png" style="height: 345px;" />
+                        <img src="img/containerregistry2.png" style="height: 190px;" />
+				</section>
+                <section>
+					<h2>Docker hurdles</h2>
+                    <ul>
+                    <li>Using different hosts</li>
+                    <li>Cannot communicate across hosts</li>
+                    <li>Cannot mount anything</li>
+                    <li class="fragment">That's OK, we have Kubernetes</li>
+                    </ul>
+				</section>
+				<section>
+					<h2>Setup central storage</h2>
+                    <ul>
+                    <li class="fragment">Docker images do not allow mounting during runtime</li>
+                    <li class="fragment">Need docker images to read/write to same storage</li>
+                    <li class="fragment">Need involved VMs to read/write to same storage</li>
+                    <li class="fragment">Which storage method do we use?</li>
+                    <li class="fragment">glusterFS/Flocker/NFS</li>
+                    <a  class="fragment" href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes">Supported Persistent Volumes</a>
+				</section>	
+				<section>
+					<h2>Just use the example</h2>
+                    <ul>
+                    <li><span class="codesnip" >kubectl create -f nfs-pv.yaml</span> (<a href="https://github.com/mcoia/eg-docker/blob/master/nfs-pv.yaml">example</a>)</li>
+                    <li><span class="codesnip" >kubectl create -f nfs-pvc.yaml</span> (<a href="https://github.com/mcoia/eg-docker/blob/master/nfs-pvc.yaml">example</a>)</li>
+                    <li><span class="codesnip" >kubectl create -f create_apps_service.yml</span> (<a href="https://github.com/mcoia/eg-docker/blob/master/create_apps_service.yml">example</a>)</li>
+                    <li><span class="codesnip" >kubectl create -f create_apps.yml</span> (<a href="https://github.com/mcoia/eg-docker/blob/master/create_apps.yml">example</a>)</li>
+                    <ul>
+				</section>	
+				<section>
+					<h2>How are things going?</h2>
+                    <ul>
+                    <li class="codesnip" >kubectl get svc</li>
+                    <img src="img/getsvc.png" style="height: 145px;" />
+                    <li class="codesnip" >kubectl proxy --address=192.168.11.119 --accept-hosts=".*"</li>
+                    <li>http://192.168.11.119:8001/ui</li>
+                    </ul>
+				</section>
+				<section>
+					<h2>Local Proxy UI</h2>
+						<img src="img/rcmeapps.png" />
+				</section>	
+				<section>
+					<h2>Check out auto stuff</h2>
+                    <ul>
+                    <li>First setup health check</li>
+						<img src="img/healthchecks.png" />
+                    </ul>
+				</section>	
+				<section>
+					<h2>Health Check Detail</h2>
+                    <img src="img/healthchecks2.png" />
+				</section>
+				<section>
+					<h2>Load Balancer</h2>
+                    <table><tr><td style="vertical-align:top">
+                    <img src="img/loadbalance.png" width="300px"/>
+                    </td><td style="vertical-align:top">
+                    <img src="img/loadhealthcheck.png" />
+                    </td></tr>
+                    </table>
+				</section>	
+				<section>
+				<h2>Load Balancer evaluates<Br /> Containers not Pods</h2>
+					<ul>
+                    <li class="fragment">I know, it's called container</li>
+                    <li class="fragment">"Containers" are VMs that run Docker "Pods"</li>
+                    <li class="fragment">I know, it's called container!!!</li>
+                    <li class="fragment">Pods already have this check setup from YAML</li>
+                    <img class="fragment" src="img/createappssnip.png" />
+                    </ul>
+				</section>
+				<section>
+				<h2>Load Balancer stuff</h2>
+					<ul>
+                    <li>Take a pod out of rotation by removing /openils/var/web/ping.txt</li>
+                    <li>But how do I access the pod?</li>
+                    <li class="fragment">Funny you should ask, back to that in a minute</li>
+				</section>
+				<section>
+				<h2>Containers can have <br />more than one Pod</h2>
+                <Br />
+					<ul>
+                    <li>Google "load balances" the Pods onto the available containers</li><Br />
+                    <li>When it's time to add a Pod, Google chooses the less utilized container</li><Br />
+                    <li>We need to make sure the number of containers are equal to the number of Pods</li><Br />
+                    </ul>
+				</section>
+				<section>
+				<h2>Solve for X</h2>
+					<ul>
+					<li>Cron a script for gcloud</li>
+                    <li>Use <a href="https://github.com/mcoia/eg-docker/blob/master/podsync.sh">podsync.sh</a></li>
+                    <li class="codesnip" >INSTANCENUM=`$PATH_TO_GCLOUD compute instance-groups list|grep -v "INSTANCES" | awk '{print $6}'`</li>
+					</ul>
+				</section>
+                <section>
+				<h2>Now Scaling!</h2>
+                <img src="img/instancegroups.png" width="900px"/>
+				</section>
+                <section>
+				<h2>Now Scaling!</h2>
+                <img src="img/scaling.png" />
+				</section>
+                <section>
+				<h2>A word on Scaling</h2>
+                <ul>
+                <li>CPU percentage is all containers combined</li>
+                <li>New containers are created automatically but not Pods</li>
+                <li>Pods are created by that cron job - consider timing</li>
+                <li>When containers are removed, the Pod inside is deleted, Replication Controller will automatically create another Pod on another container</li>
+                <li>Cron job will detect the lower number of containers and scale down to match</li>
+                <li>Connections will be rerouted to other containers</li>
+                </ul>
+				</section>
+                <section>
+				<h2>Bibliotheca software has issues</h2>
+                <ul>
+                <li>Bibliotheca creates a TCP connection for SIP</li>
+                <li class="fragment">And never terminates it!</li>
+                <li class="fragment">When Pods scale down, Bibliotheca errors</li>
+                <li class="fragment">Patrons recieve nasty "DB unavailable" error</li>
+                <li class="fragment">FOR 30 SECONDS!</li>
+                <li class="fragment">Pirak at Bibliotheca has been alerted</li>                
+                </ul>
+				</section>
+                <section>
+				<h2>Gcloud blocks port 25</h2>
+                <ul>
+                <li>Documented <a href="https://cloud.google.com/compute/docs/tutorials/sending-mail/">here</a></li>
+                <li>We setup SMTP through gmail account authentication</li>
+                <li>Configure sendmail</li>
+                <li>/etc/mail/authinfo</li>
+                <li>/etc/mail/sendmail.mc</li>
+                <li>All included in ansible script</li>
+                <li class="codesnip" >v=spf1 include:_spf.google.com include:_cloud-netblocks.googleusercontent.com ?all</li>
+                </ul>
+				</section>
+                <section>
+				<h2>Final Note: Access Pods</h2>
+                <ul>
+                <li>Find Internal IPs of the Pods</li>
+                <li style="background-color:lightgrey;">kubectl get po|grep -v NAME | awk '{print $1}'|while read line ; do kubectl describe po/$line ; done |grep IP | awk '{print $2}'| tr '\n' ' '</li>                
+                <li>Use SSH netcat forwarding</li>
+                <li style="background-color:lightgrey;">ProxyCommand ssh -q</li>
+                <li>Use script for automagic <a href="https://github.com/mcoia/eg-docker/blob/master/remote_cloud_launch.pl">(Script Example)</a></li>
+                <li style="background-color:lightgrey;">./remote_cloud_launch.pl --dbname me-db1 --localusername blake --clustername meapps</li>
+                <img src="img/sshconfig.png" width="600px"/>
+                <li>Then you can use clusterssh if you want</li>
+                </ul>
+				</section>
+				<section>
+					<h1>THE END</h1>
+					<h3>Blake Graham-Henderson</h3>
+					<h3>MOBIUS</h3>
+					<h3><a href="mailto:blake@mobiusconsortium.org">blake@mobiusconsortium.org</a></h3>
+					<p>Slides available at:<Br /> <a href="http://slides.mobiusconsortium.org/blake/evergreengoogledocker">slides.mobiusconsortium.org/blake/evergreengoogledocker</a></p>
+					<p>Github repo:<br />
+					<a href="https://github.com/mcoia/eg-docker">https://github.com/mcoia/eg-docker</a>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
