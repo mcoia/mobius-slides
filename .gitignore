@@ -1,0 +1,11 @@
+*
+!.gitignore
+!*/
+!**/*.png
+!**/*.jpg
+!**/*.JPG
+!**/*.gif
+!**/index.html
+#!index.html
+.well-known
+
