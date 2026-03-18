@@ -15,7 +15,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/white.css" id="theme">
+		<link rel="stylesheet" href="dist/theme/sky.css" id="theme">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
@@ -285,7 +285,7 @@
                 </section>
 
                 <section>
-                    <h3>Now we begin</h3>
+                    <h1>Now we begin</h1>
                 </section>
 
                 <section>
@@ -294,29 +294,91 @@
                     <pre><code data-trim  class="language-bash">
                         # standard powershell prompt
                         # * Fix "user" to match your username
-                        docker run -it -p 80:80 -p 443:443 -p 210:210 -p 6001:6001 -p 32:22 \
-                        -p 5433:5432 \
-                        -v //c/users/user/Evergreen:/home/opensrf/repos/Evergreen \
+                        docker run -it -p 80:80 -p 443:443 -p 210:210 -p 6001:6001 `
+                        -p 5433:5432 `
+                        -v //c/users/user/Evergreen:/home/opensrf/repos/Evergreen `
                         -h test.evergreen.com mobiusoffice/evergreen-ils:dev
                       </code></pre>
                     Linux
                     <pre><code data-trim data-noescape class="language-bash">
                             sudo su -
-                            docker run -it -p 80:80 -p 443:443 -p 210:210 -p 6001:6001 -p 32:22 \
+                            docker run -it -p 80:80 -p 443:443 -p 210:210 -p 6001:6001 \
                             -p 5433:5432 \
                             -v ~/Evergreen:/home/opensrf/repos/Evergreen \
                             -h test.evergreen.com mobiusoffice/evergreen-ils:dev
                       </code></pre>
                     Mac
                     <pre><code data-trim data-noescape class="language-bash">
-                            docker run -it -p 80:80 -p 443:443 -p 210:210 -p 6001:6001 -p 32:22 \
+                            docker run -it -p 80:80 -p 443:443 -p 210:210 -p 6001:6001 \
                             -p 5433:5432 \
                             -v ~/Evergreen:/home/opensrf/repos/Evergreen \
                             -h test.evergreen.com mobiusoffice/evergreen-ils:dev-arm64
                       </code></pre>
-
                 </section>
-                    
+
+                <section>
+                    <h3>See that it finishes</h3>
+                    <img src="img/docker-ansible-finish.png" />
+                </section>
+
+                <section>
+                    <h3>Check localhost</h3>
+                    <p><a href="http://localhost">http://localhost</a></p>
+                    <img src="img/opac-localhost.png" />
+                </section>
+
+                <section>
+                    <h3>Try staff client</h3>
+                    <p><a href="http://localhost">http://localhost/eg/staff</a></p>
+                    <p>Accept the fake certificate</p>
+                    <img src="img/staff-client-accept-cert.png" />
+                </section>
+
+                <section>
+                    <h3>Don't worry if you<br>receive "File not found"</h3>
+                    <p>The Angular components are still building</p>
+                    <p>The container forego's that process to get the container online quicker</p>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Open your code editor</h3>
+                        <ul>
+                        <li>db_control.txt</li>
+                        <li>eg_rebuild_angular_screenoutput</li>
+                        <li>eg_restart_go_screenoutput</li>
+                        </ul>
+                        <p>(slides continue downwards)</p>
+                    </section>
+
+                    <section>
+                        <h3>db_control.txt</h3>
+                        <p>Three columns, space delimited</p>
+                        <pre><code data-trim data-noescape class="language-bash">
+                                evergreen standard *
+                                evergreen_enhanced enhanced
+                          </code></pre>
+                          <ol>
+                          <li>database name</li>
+                          <li>concerto type (standard/enhanced)</li>
+                          <li>chosen indicator</li>
+                          </ol>
+                            <ul>
+                            <li class="fragment">Switch databases: move the asteriks</li>
+                            <li class="fragment">Create new databases by adding a new line</li>
+                           </ul>
+                    </section>
+                    <section>
+                        <h4>eg_rebuild_angular_screenoutput</h4>
+                        <p>Angular build output</p>
+                            <ul>
+                            <li class="fragment">Rename to "eg_rebuild_angular" if you want to initiate an Angular build</li>
+                            <li class="fragment">The file will turn back into eg_rebuild_angular_screenoutput</li>
+                           </ul>
+                    </section>
+                </section>
+                
+
     
     <section>
         <h2>THE END</h2>
