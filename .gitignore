@@ -2,6 +2,7 @@
 !.gitignore
 !*/
 !**/*.png
+!**/*.PNG
 !**/*.jpg
 !**/*.JPG
 !**/*.gif

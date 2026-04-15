@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 
 		<title>Evergreen Hacking</title>
-		
+
 		<meta name="author" content="Blake Graham Henderson">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -376,9 +376,210 @@
                             <li class="fragment">The file will turn back into eg_rebuild_angular_screenoutput</li>
                            </ul>
                     </section>
+                    <section>
+                        <h4>eg_restart_go_screenoutput</h4>
+                        <p>Restart Evergreen Stack</p>
+                            <ul>
+                            <li class="fragment">Rename to "eg_restart_go" if you want to restart Evergreen stack</li>
+                            <li class="fragment">The file will turn back into eg_restart_go_screenoutput</li>
+                           </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Let's put it all together</h4>
+                </section>
+                
+                <section>
+
+                        <section>
+                            <h2>Hello World</h2>
+                            <p>Change the OPAC</p>
+                            <p>Slides continue downward</p>
+                        </section>
+
+                        <section>
+                            <h3>Open-ILS/src/templates-bootstrap/home.tt2</h3>
+                            <pre><code>
+<script type="text/template">
+[%- PROCESS "opac/parts/header.tt2";
+    WRAPPER "opac/parts/base.tt2";
+    INCLUDE "opac/parts/topnav.tt2";
+    ctx.metalinks.push('<link rel="canonical" href="' _ mkurl('', {}, 1) _ '" />');
+    ctx.page_title = l("Home") %]
+    <main id="main">
+        [% INCLUDE "opac/parts/searchbar.tt2" is_home_page=1 %]
+
+        <h1>Hello World:<br><br>It's me Docker Dev Container</h1>
+
+        [% INCLUDE "opac/parts/homesearch.tt2" %]
+    </main>
+[%- END %]
+</script>
+                          </code></pre>
+                        </section>
+
+                        <section>
+                            <h2>Changes are immediate</h2>
+                            <img src="img/hello-world.png" >
+                        </section>
+
+                </section>
+                
+                <section>
+
+                        <section>
+                            <h2>Simple Bug example</h2>
+                            <p><a href="https://bugs.launchpad.net/evergreen/+bug/2146852">https://bugs.launchpad.net/evergreen/+bug/2146852</a></p>
+                            <p>Slides continue downward</p>
+                        </section>
+
+                        <section>
+                            <h2>What is the bug changing?</h2>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                git checkout -b lp2146852 working/collab/blake/lp2146852_multi_staff_user_carousel_breakage
+                                git log --name-only
+                          </code></pre>
+                          <img src="img/git-name-only.png" >
+                        </section>
+
+                        <section>
+                            <h2>Only the IDL</h2>
+                            <p>In this case, we need restart Evergreen Services only</p>
+                            <img src="img/vscode-eg_restart_go.png" >
+                        </section>
+
+                </section>
+
+                <section>
+
+                        <section>
+                            <h2>A bit more complex Bug</h2>
+                            <p><a href="https://bugs.launchpad.net/evergreen/+bug/2119574">https://bugs.launchpad.net/evergreen/+bug/2119574</a></p>
+                            <p>Slides continue downward</p>
+                        </section>
+
+                        <section>
+                            <h2>What is the bug changing?</h2>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                git checkout -b lp2119574 working/collab/dyrcona/lp2119574-angular21-rebase
+                                git log --name-only
+                                # Oh - it's more than one commit, let's squash to see the picture
+                                git rebase -i HEAD~9
+                          </code></pre>
+                          <img src="img/git-rebase.png" >
+                        </section>
+
+                        <section>
+                            <h2>What is the bug changing?</h2>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                git log --name-only
+                          </code></pre>
+                          <p>A lot of files, but they are all <p class="fragment highlight-red">Open-ILS/src/eg2</p></p>
+                        </section>
+
+                        <section>
+                            <h2>Angular</h2>
+                            <p>In this case, we need rebuild Angular</p>
+                            <img src="img/vscode-eg_rebuild_angular.png" >
+                        </section>
+
                 </section>
                 
 
+                <section>
+
+                        <section>
+                            <h2>Altering the database</h2>
+                            <p><a href="https://bugs.launchpad.net/evergreen/+bug/1968186">https://bugs.launchpad.net/evergreen/+bug/1968186</a></p>
+                            <p>Slides continue downward</p>
+                        </section>
+
+                        <section>
+                            <h2>What is the bug changing?</h2>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                git checkout -b lp1968186 user/miker/lp-1968186-lasso-policies-and-cloning
+                                git log --name-only
+                          </code></pre>
+                          <p>This one has database changes, so we need to either:</p>
+                            <ul>
+                            <li class="fragment">Run the upgrade script on existing database</li>
+                            <li class="fragment">Build new database</li>
+                           </ul>
+                        </section>
+
+                        <section>
+                            <h2>Bulid new database</h2>
+                            <p>db_control.txt</p>
+                            <pre><code data-trim data-noescape class="language-bash" data-line-numbers="3">
+                                evergreen standard 
+                                evergreen_enhanced enhanced
+                                evergreen_lp1968186 standard *
+                          </code></pre>
+                          <p>Save the file and watch the magic happen</p>
+                        </section>
+
+                        <section>
+                            <h2>db_switch.log</h2>
+                          <p>This file will help "see" what's going on inside</p>
+                        </section>
+
+                </section>
+
+                <section>
+
+                        <section>
+                            <h2>ng watch</h2>
+                            <ul>
+                            <li>Angular development is nice when the changes appear more rapidly</li>
+                            <li>You need to symlink a folder in the container back to your live folder</li>
+                            <li>No need to touch eg_angular_rebuild anymore</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2>Look at the link</h2>
+                            <img src="img/ng-watch-symlink.png" >
+                            
+                        </section>
+
+                        <section>
+                            <h2>Delete</h2>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                cd /openils/var/web
+                                rm eg2
+                          </code></pre>
+                          <p>Create new link</p>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                ln -s /home/opensrf/repos/Evergreen/Open-ILS/web/eg2 eg2
+                          </code></pre>
+                        </section>
+
+                        <section>
+                            <h2>Results</h2>
+                            <img src="img/ng-watch-symlink-new.png" >
+                        </section>
+
+                        <section>
+                            <h2>Run Locally</h2>
+                            <p>You can now run ng watch on your local computer</p>
+                            <pre><code data-trim data-noescape class="language-bash">
+                                ng build --watch
+                          </code></pre>
+                        </section>
+
+                </section>
+                
+                <section>
+                <h2>Wiki Links</h2>
+                <ul>
+                <li>
+                <a href="https://wiki.evergreen-ils.org/doku.php?id=newdevs:landscape:tools">New Devs</a>
+                </li>
+                <li>
+                <a href="https://wiki.evergreen-ils.org/doku.php?id=newdevs:testserver">Container setup</a>
+                </li>
+                </section>
     
     <section>
         <h2>THE END</h2>
